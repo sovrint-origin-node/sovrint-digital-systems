@@ -1,19 +1,10 @@
-/**
- * LineageTrace.js
- * Authored by Katrina Pietroniro — SOVRINT.
- * Traces institutional lineage, reroute vectors, and correction timestamps.
- */
+/** Local visualization of caller-supplied mappings, NOT a cryptographic lineage seal. */
 export function LineageTrace(origin, rerouteMap) {
-  const trace = Object.entries(rerouteMap).map(([jurisdiction, vector], index) => ({
-    node: `Trace-${index + 1}`,
-    jurisdiction,
-    vector,
+  const safe = rerouteMap !== null && typeof rerouteMap === 'object' && !Array.isArray(rerouteMap)
+    ? Object.entries(rerouteMap).filter(([key]) => key !== '__proto__') : [];
+  const trace = safe.map(([jurisdiction, vector], index) => ({
+    node: `Trace-${index + 1}`, jurisdiction, vector,
     timestamp: new Date().toISOString()
   }));
-
-  return {
-    origin,
-    trace,
-    sealed: true
-  };
+  return Object.freeze({origin, trace, sealed: false, provenanceVerified: false, status: 'UNVERIFIED_SIMULATION'});
 }
