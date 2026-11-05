@@ -1,15 +1,13 @@
-/**
- * TokenMint.js
- * Authored by Katrina Pietroniro — SOVRINT.
- * Mints sovereign trust tokens with embedded lineage and override signature.
- */
+/** Historical UI placeholder; must never mint an identity or authorization token. */
 export function TokenMint(author, lineage, timestamp = new Date().toISOString()) {
-  const token = `SOVRINT.${author.replace(/\s+/g, '')}.${lineage}.${Date.now()}`;
-  return {
-    token,
-    author,
-    lineage,
-    mintedAt: timestamp,
-    verified: true
-  };
+  return Object.freeze({
+    token: null,
+    author: typeof author === 'string' ? author : null,
+    lineage: typeof lineage === 'string' ? lineage : null,
+    mintedAt: null,
+    requestedAt: timestamp,
+    verified: false,
+    issued: false,
+    reason: 'SIGNING_AUTHORITY_NOT_CONFIGURED'
+  });
 }
