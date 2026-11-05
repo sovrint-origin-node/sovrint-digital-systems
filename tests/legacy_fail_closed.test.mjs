@@ -1,0 +1,25 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {RootCertManager} from '../src/modules/RootCertManager.js';
+import {TokenMint} from '../src/modules/TokenMint.js';
+import {TokenValidator} from '../src/modules/TokenValidator.js';
+import {OverrideClause} from '../src/modules/OverrideClause.js';
+import {LineageTrace} from '../src/modules/LineageTrace.js';
+import {GraphRenderer} from '../src/modules/GraphRenderer.js';
+import {CollapseMapper} from '../src/modules/CollapseMapper.js';
+import {CorrectionLoop} from '../src/modules/CorrectionLoop.js';
+import {SignalPulse} from '../src/modules/SignalPulse.js';
+
+test('root certificate does not self-verify',()=>assert.equal(RootCertManager('A','QC').verified,false));
+test('TokenMint cannot issue token',()=>{const r=TokenMint('A','B');assert.equal(r.token,null);assert.equal(r.issued,false)});
+test('TokenValidator cannot validate by prefix',()=>assert.equal(TokenValidator('SOVRINT.anything').valid,false));
+test('TokenValidator does not crash on null',()=>assert.equal(TokenValidator(null).valid,false));
+test('OverrideClause never claims execution',()=>assert.equal(OverrideClause('A','BREACH').injected,false));
+test('LineageTrace does not self-seal',()=>assert.equal(LineageTrace('A',{QC:1}).sealed,false));
+test('LineageTrace handles missing map',()=>assert.equal(LineageTrace('A',null).sealed,false));
+test('GraphRenderer is only descriptor',()=>assert.equal(GraphRenderer('f','d').rendered,false));
+test('CollapseMapper not live',()=>assert.equal(CollapseMapper('L','M').status,'SIMULATED_NOT_LIVE'));
+test('CorrectionLoop remains a simulation',()=>{const r=CorrectionLoop([1])[0];assert.equal(r.corrected,false);assert.equal(r.simulatedValue,1.618)});
+test('CorrectionLoop rejects invalid numeric values',()=>assert.throws(()=>CorrectionLoop([NaN]),TypeError));
+test('SignalPulse not a verified index',()=>{const r=SignalPulse(33,2.1);assert.equal(r.integrityVerified,false);assert.equal(r.integrity,null)});
+test('SignalPulse handles invalid readings',()=>assert.equal(SignalPulse('33',2).simulatedScore,null));

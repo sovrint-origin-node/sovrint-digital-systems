@@ -1,13 +1,4 @@
-/**
- * GraphRenderer.js
- * Authored by Katrina Pietroniro — SOVRINT.
- * Renders quantum trust graphs and dashboards.
- */
+/** Chart descriptor, not a renderer; no plot is produced by this function. */
 export function GraphRenderer(equation, domain) {
-  return {
-    equation,
-    domain,
-    rendered: true,
-    timestamp: new Date().toISOString()
-  };
+  return Object.freeze({equation, domain, rendered: false, status: 'DESCRIPTION_ONLY', timestamp: new Date().toISOString()});
 }

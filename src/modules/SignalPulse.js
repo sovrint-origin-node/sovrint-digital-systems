@@ -1,26 +1,11 @@
-/**
- * SignalPulse.js
- * 
- * Authored by Katrina Pietroniro — Sovereign Architect of SOVRINT.
- * 
- * Description:
- * Tracks consciousness frequency and signal integrity.
- * Calculates a normalized integrity score based on input frequency and signal strength.
- * 
- * Returns:
- * {
- *   frequency: Number,
- *   signalStrength: Number,
- *   integrity: Number (0–100),
- *   timestamp: ISO String
- * }
- */
-
+/** Demonstration score; the result is not an authenticated integrity metric. */
 export function SignalPulse(frequency, signalStrength) {
-  return {
-    frequency,
-    signalStrength,
-    integrity: Math.min(100, frequency * signalStrength),
-    timestamp: new Date().toISOString()
-  };
+  const numeric = typeof frequency === 'number' && Number.isFinite(frequency)
+    && typeof signalStrength === 'number' && Number.isFinite(signalStrength);
+  return Object.freeze({
+    frequency, signalStrength,
+    integrity: null, integrityVerified: false,
+    simulatedScore: numeric ? Math.max(0, Math.min(100, frequency * signalStrength)) : null,
+    status: 'UNVERIFIED_SIMULATION', timestamp: new Date().toISOString()
+  });
 }

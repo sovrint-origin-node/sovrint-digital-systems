@@ -1,13 +1,10 @@
-/**
- * TokenValidator.js
- * Authored by Katrina Pietroniro — SOVRINT.
- * Validates trust tokens and onboarding flows.
- */
+/** Prefix checking is not a signature or authorization check. */
 export function TokenValidator(token) {
-  const valid = token.startsWith("SOVRINT.");
-  return {
-    token,
-    valid,
+  return Object.freeze({
+    token: typeof token === 'string' ? token : null,
+    valid: false,
+    verified: false,
+    reason: 'ISSUER_SIGNATURE_EXPIRY_AUDIENCE_NOT_VERIFIED',
     timestamp: new Date().toISOString()
-  };
+  });
 }

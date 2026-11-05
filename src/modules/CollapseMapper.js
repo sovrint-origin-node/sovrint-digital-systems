@@ -1,13 +1,4 @@
-/**
- * CollapseMapper.js
- * Authored by Katrina Pietroniro — SOVRINT.
- * Renders collapse diagnostics across institutional layers.
- */
+/** Historical collapse diagnostic descriptor; no live telemetry is connected. */
 export function CollapseMapper(layer, collapseMode) {
-  return {
-    layer,
-    collapseMode,
-    status: "Live",
-    timestamp: new Date().toISOString()
-  };
+  return Object.freeze({layer, collapseMode, status: 'SIMULATED_NOT_LIVE', timestamp: new Date().toISOString()});
 }
